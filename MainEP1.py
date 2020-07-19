@@ -4,9 +4,8 @@
 
 import pandas as pd
 from classes.Local import Local
-from classes.Frequentador import Frequentador
+from classes.Vertice import Vertice
 from datetime import datetime
-import xlrd
 start_execucao = datetime.now()
 
 ### INICIALIZACAO DE LEITURA DO ARQUIVO DE DADOS
@@ -42,16 +41,20 @@ for index, row in coordenadas_df.iterrows():
     else:
         local = locais_dict[coordenadas]
 
-    frequentador = Frequentador(row['ID_PESS'])
+    frequentador = Vertice(row['ID_PESS'])
     local.adicionar_frequentador(frequentador)
     num_linhas += 1
 
 # Abaixo ocorre a geracao de um log para registrar quantos frequentadores cada local possui
 arquivo_locais = open('Locais.txt', 'a')
+
+frequentadores = []
 for local in locais_list:
     txt_local_linha = f'coordenadas: ({local.coordenada_x} , {local.coordenada_y}); ' \
         f'frequentadores: {len(local.frequentadores)}\n'
     arquivo_locais.write(txt_local_linha)
+    frequentadores.append(len(local.frequentadores))
+
 
 ### FINALIZACAO DO CODIGO
 print(f"Locais: {len(locais_list)} | Linhas: {num_linhas}")
