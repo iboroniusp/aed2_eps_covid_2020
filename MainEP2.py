@@ -4,6 +4,7 @@
 
 from classes.Grafo import Grafo
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 cenario3_file = 'dados/cenario3.txt'
 
@@ -19,44 +20,18 @@ for aresta in arestas:
     aresta_list = aresta.split(' ')
     v1 = int(aresta_list[0])
     v2 = int(aresta_list[1])
-    grafo.adicionar_aresta(v1, v2)
+    grafo.add_aresta(v1, v2)
 
-grau_maximo = grafo.get_grau_maximo()
+graus = grafo.get_graus()
+grau_maximo = max(graus)
+print("Arestas inseridas:", grafo.num_arestas)
 print("Grau máximo:", grau_maximo)
 
-graus = []
-for i in range(grau_maximo+1):
-    graus.append(0)
-
-print(len(grafo.vertices_list))
-
-for v in grafo.vertices_list:
-    grau_vertice = len(v.vizinhos)
-    print(grau_vertice)
-    graus[grau_vertice] = graus[grau_vertice] + 1
-
-for grau in graus:
-    if grau == 98:
-        print(graus.index(grau))
-
-# cont_locais = 1
-# arquivo_locais = open('Locais.txt', 'a')
-# start_grafo = datetime.now()
-# for local in locais_list:
-#     txt_local_linha = f'Local: {cont_locais} ({local.coordenada_x}, {local.coordenada_y} | N. frequentadores: {len(local.frequentadores)}\n'
-#     arquivo_locais.write(txt_local_linha)
-#     for frequentador in local.frequentadores:
-#         for proximo_frequentador in local.frequentadores:
-#             if frequentador != proximo_frequentador:
-#                 grafo.adicionar_vertice(frequentador)
-#                 grafo.adicionar_vertice(proximo_frequentador)
-#                 grafo.adicionar_aresta(frequentador, proximo_frequentador)
-#     cont_locais += 1
-# arquivo_locais.close()
-# grafo.gerar_txt_arestas()
-# end_grafo = datetime.now()
-# runtime_grafo = (end_grafo - start_grafo).total_seconds() / 60
-# print(f'Grafo runtime: {runtime_grafo} min')
+# Plotagem do histograma
+plt.style.use('ggplot')
+plt.hist(graus, bins=10)
+plt.title("Frequência dos graus dos nós para o cenário 3")
+plt.show()
 
 end_execucao = datetime.now()
 runtime_execucao = (end_execucao - start_execucao).total_seconds() / 60
